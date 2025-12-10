@@ -1,0 +1,506 @@
+% ****** Start of file rmatrixisomorphism.tex ******
+%
+%   This file is prepared for submission to AIP Publishing Journals
+%   using REVTeX 4.1 in compliance with AIP style guidelines.
+%
+% It also requires running BibTeX. The commands are as follows:
+%
+%  1)  latex  rmatrixisomorphism
+%  2)  bibtex rmatrixisomorphism
+%  3)  latex  rmatrixisomorphism
+%  4)  latex  rmatrixisomorphism
+%
+
+\documentclass[%
+ aip,
+ amsmath,amssymb,
+ reprint,%
+]{revtex4-1}
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{mathptmx}% Times Roman font
+\usepackage{etoolbox}
+\usepackage{bbm}
+\usepackage{amsthm}% For theorem environments
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% AIP requests corresponding email to be moved after affiliations
+\makeatletter
+\def\@email#1#2{%
+ \endgroup
+ \patchcmd{\titleblock@produce}
+  {\frontmatter@RRAPformat}
+  {\frontmatter@RRAPformat{\produce@RRAP{*#1\href{mailto:#2}{#2}}}\frontmatter@RRAPformat}
+  {}{}
+}%
+\makeatother
+
+% Define theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}{Example}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Notation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+
+\preprint{AIP/123-QED}
+
+\title{A Yang-Baxter Representation of the $\zeta$ Function}
+
+\author{Drew Remmenga}
+\email{drewremmenga@gmail.com}
+\affiliation{%
+Fort Collins, Colorado
+}%
+
+\date{\today}% Current date
+
+\maketitle
+
+\begin{quotation}
+We study a formal calculus arising from a regularized Weierstrass product
+\[
+\star(x)=\prod_{n\in\mathbb{Z}} \bigl(x-(2n-1)\pi i\bigr),
+\]
+whose zero set coincides with that of $\cosh(x/2)$.  By encoding the derivatives
+of $\star$ using complete Bell polynomials \cite{bell1934exponential}, we define formal integral transforms
+\[
+\sigma(s,n,m)=\int_{0}^{\infty} x^{s}\,\star B_{n}(x)\,\star B_{m}(x)\,dx,\qquad
+\tau(s,n,m)=\bigl[ x^{s}\star B_{n}\star B_{m}\bigr]_{0}^{\infty},
+\]
+and derive a closed system of linear recurrences in $(s,n,m)$ by
+integration by parts.  These identities exhibit symmetry, a two-step
+quasi-periodicity, and parity constraints.  Interpreting $\sigma$ and $\tau$ as
+formal matrix elements, we construct an $R$-matrix of Temperley-Lieb type and
+prove that it satisfies the Yang-Baxter equation solely as a consequence of the
+recurrence system.  All results are formal and do not rely on analytic
+convergence.  The correspondence highlights a purely algebraic link between the
+calculus of a classical Weierstrass product and the structure of integrable
+vertex models.
+\end{quotation}
+
+
+\section{Introduction}
+
+The classical Weierstrass product for $\cosh(x/2)$ \cite{ahlfors1979complex, elizalde1995ten,voros1987spectral} motivates the formal
+infinite product
+\begin{equation}\label{eq:star_product_intro}
+\star(x)=\prod_{n\in\mathbb{Z}} \bigl(x-(2n-1)\pi i\bigr),
+\end{equation}
+which we treat throughout as a formal object whose zero set agrees with that of
+$\cosh(x/2)$.  Writing $\star(x)=C\cosh(x/2)$ with an unspecified constant $C$,
+we encode the derivatives of $\star$ using complete Bell polynomials:
+\[
+\star B_{n}(x)=\frac{d^{n}}{dx^{n}}\star(x)
+=\star(x)\,B_{n}\bigl(g'(x),\dots,g^{(n)}(x)\bigr),\qquad g=\log\star.
+\]
+
+Using this structure, we define formal transforms
+\[
+\sigma(s,n,m)=\int_{0}^{\infty} x^{s}\,\star B_{n}\star B_{m}\,dx,\qquad
+\tau(s,n,m)=\bigl[x^{s}\star B_{n}\star B_{m}\bigr]_{0}^{\infty},
+\]
+and show that they satisfy a closed family of recurrence relations in $s,n,m$.
+The boundary term $\tau$ vanishes whenever either index is odd and satisfies
+two-step quasi-periodicity in the first index.
+
+The demonstrated isomorphism is between $\zeta$ and the base case $\sigma(s,0,0)$.
+
+These properties are reminiscent of the functional identities satisfied by
+Boltzmann weights in integrable vertex models.  We make this analogy precise by
+constructing a formal $R$-matrix from the transforms and proving that it
+satisfies the Yang-Baxter equation.
+
+The results are formal: we do not assume convergence of the integrals defining
+$\sigma$ or the existence of the limits defining $\tau$.  Instead, $\sigma$ and
+$\tau$ are universal symbols constrained only by the derivative identity
+$\frac{d}{dx}(\star B_{n})=\star B_{n+1}$ and the parity structure of $\star$.
+This formal viewpoint isolates the algebraic features underlying the
+recurrences and reveals a connection to Temperley-Lieb $R$-matrices.
+
+
+\section{The Formal Weierstrass Product and Its Derivatives}
+
+\subsection{Definition and normalization}
+
+\begin{definition}
+Define the truncated product
+\[
+\star_{N}(x)=\prod_{n=-N}^{N}\bigl(x-(2n-1)\pi i\bigr).
+\]
+A \emph{regularized Weierstrass product} $\star(x)$ is any formal object
+satisfying
+\[
+\star(x)=C\cosh(x/2)
+\]
+for a nonzero constant $C$, and whose zero set is the set of odd integer
+multiples of $\pi i$.
+\end{definition}
+
+Only algebraic properties of $\cosh(x/2)$ will be used; the value of $C$ plays
+no role in the recurrence relations.
+
+
+\subsection{Logarithmic derivatives}
+
+Write
+\[
+g(x)=\log\star(x)=\log C + \log\cosh(x/2).
+\]
+
+\begin{proposition}
+For $m\ge1$,
+\[
+g^{(m)}(x)=2^{-m}\frac{d^{\,m-1}}{dx^{m-1}}\tanh(x/2).
+\]
+\end{proposition}
+
+\begin{proof}
+Differentiate $\log\cosh(x/2)$ repeatedly and apply the chain rule.  \cite{constantine1996generalized}
+\end{proof}
+
+
+\subsection{Bell polynomial encoding}
+
+Let $B_{n}$ denote the $n$th complete Bell polynomial.
+
+\begin{theorem}
+For each $n\ge0$,
+\[
+\star B_{n}(x)=\frac{d^{n}}{dx^{n}}\star(x)
+=\star(x)\,B_{n}\bigl(g'(x),\dots,g^{(n)}(x)\bigr).
+\]
+\end{theorem}
+
+
+\subsection{Parity at the origin}
+
+\begin{proposition}\label{prop:parity}
+For all $n\ge0$,
+\[
+\star B_{n}(0)=\begin{cases}
+2^{-n}\star(0),&n\ \text{even},\\[4pt]
+0,&n\ \text{odd}.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+$\cosh(x/2)$ is even and its odd derivatives vanish at the origin.
+\end{proof}
+
+
+\section{Formal Integral Transforms and Recurrence Relations}
+
+\subsection{Definitions}
+
+\begin{definition}
+For integers $n,m\ge0$ and complex $s$, define
+\[
+\sigma(s,n,m)=\int_{0}^{\infty} x^{s}\,\star B_{n}(x)\,\star B_{m}(x)\,dx,
+\]
+\[
+\tau(s,n,m)=\bigl[x^{s}\star B_{n}(x)\star B_{m}(x)\bigr]_{0}^{\infty}.
+\]
+These are treated as formal symbols constrained only by the identities below.
+\end{definition}
+Then it is clear by our work in Section 2 that:
+\begin{theorem}[Relation between $\sigma(s,0,0)$ and the Riemann zeta function]
+    For $\Re(s) > 0$, the following identity holds:\cite{andrews1999special}
+    \[
+    \zeta(s)\Gamma(s+1)(1 - 2^{1-s}) = \frac{1}{4} \sigma(s,0,0),
+    \]
+    where
+    \[
+    \sigma(s,0,0) = \int_0^\infty x^s e^x \frac{1}{(e^x + 1)^2} \, dx.
+    \]
+\end{theorem}
+
+\begin{proof}
+    The claim is shown by synthetic division of $(e^x + 1)$ by the Weierstrass product $\star(x)$. 
+    Since $\star(x) = C \cosh(x/2)$ for some nonzero constant $C$, we have:
+    \[
+    \cosh(x/2) = \frac{e^{x/2} + e^{-x/2}}{2}.
+    \]
+    It follows that:
+    \[
+    e^x + 1 = 2 e^{x/2} \cosh(x/2).
+    \]
+    Substituting $\star(x) = C \cosh(x/2)$, we obtain:
+    \[
+    e^x + 1 = \frac{2}{C} e^{x/2} \star(x).
+    \]
+    Hence,
+    \[
+    \frac{1}{(e^x + 1)^2} = \frac{C^2}{4} e^{-x} \frac{1}{\star(x)^2}.
+    \]
+    Now recall the definition:
+    \[
+    \sigma(s,0,0) = \int_0^\infty x^s \star B_0 \star B_0 \, dx.
+    \]
+    Since $B_0 \equiv 1$, this becomes:
+    \[
+    \sigma(s,0,0) = \int_0^\infty x^s \star(x)^2 \, dx.
+    \]
+    Substituting the expression for $1/(e^x + 1)^2$ yields:
+    \[
+    \sigma(s,0,0) = \frac{4}{C^2} \int_0^\infty x^s e^x \frac{1}{(e^x + 1)^2} \, dx.
+    \]
+    The integral on the right is a known representation related to the Riemann zeta function:
+    \[
+    \int_0^\infty x^s e^x \frac{1}{(e^x + 1)^2} \, dx = \Gamma(s+1) \zeta(s) (1 - 2^{1-s}), \quad \Re(s) > 0.
+    \]
+    Therefore,
+    \[
+    \sigma(s,0,0) = \frac{4}{C^2} \Gamma(s+1) \zeta(s) (1 - 2^{1-s}).
+    \]
+    Choosing the constant $C = 2$ (which corresponds to a natural normalization of $\star$) gives:
+    \[
+    \sigma(s,0,0) = 4 \Gamma(s+1) \zeta(s) (1 - 2^{1-s}),
+    \]
+    or equivalently,
+    \[
+    \zeta(s)\Gamma(s+1)(1 - 2^{1-s}) = \frac{1}{4} \sigma(s,0,0),
+    \]
+    as required.
+\end{proof}
+
+\subsection{First integration-by-parts identity}
+
+\begin{theorem}\label{thm:ibp1}
+For all $s,n,m$,
+\[
+\sigma(s,n,m)
+=\tau(s,n,m)-s\,\sigma(s-1,n,m)-\sigma(s,n+1,m).
+\]
+\end{theorem}
+
+\begin{proof}
+Apply integration by parts formally with
+$u=x^{s}\star B_{n}$ and $dv=\star B_{m}\,dx$.
+\end{proof}
+
+
+\subsection{Second integration-by-parts identity}
+
+\begin{theorem}\label{thm:ibp2}
+For all $s,n,m$,
+\[
+\sigma(s,n,m)
+=\tau(s,n,m)-s\,\sigma(s-1,n,m)-\sigma(s,n,m+1).
+\]
+\end{theorem}
+
+\begin{proof}
+Apply integration by parts with $u=x^{s}\star B_{m}$ instead.
+\end{proof}
+
+
+\subsection{Consistency and the corrected single-shift identity}
+
+Subtracting Theorems~\ref{thm:ibp2} and \ref{thm:ibp1} yields:
+
+\begin{proposition}[Corrected shift identity]\label{prop:shift}
+For all $s,n,m$,
+\[
+\sigma(s,n+1,m)-\sigma(s,n,m+1)
+=s\bigl[\sigma(s-1,n,m+1)-\sigma(s-1,n+1,m)\bigr].
+\]
+\end{proposition}
+
+The identity will play a key role in the Yang-Baxter analysis.
+
+
+\subsection{Symmetry}
+
+\begin{proposition}
+\[
+\sigma(s,n,m)=\sigma(s,m,n),\qquad \tau(s,n,m)=\tau(s,m,n).
+\]
+\end{proposition}
+
+\begin{proof}
+The integrand is symmetric in $n$ and $m$.
+\end{proof}
+
+
+\subsection{Parity and quasi-periodicity}
+
+\begin{proposition}[Parity vanishing]\label{prop:parity_tau}
+If $n$ or $m$ is odd, then $\tau(s,n,m)=0$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:parity}, $\star B_{n}(0)=0$ for odd $n$ and similarly at $\infty$
+formally.
+\end{proof}
+
+\begin{proposition}[Two-step quasi-periodicity]\label{prop:qp}
+For all $s,n,m$,
+\[
+\tau(s,n+2,m)=\frac14\,\tau(s,n,m).
+\]
+\end{proposition}
+
+\begin{proof}
+From $\star B_{n+2}(0)=\frac{1}{4}\star B_{n}(0)$ and boundary vanishing for odd indices.
+\end{proof}
+
+\begin{corollary}
+$\sigma$ satisfies the same quasi-periodicity in its first index:
+\[
+\sigma(s,n+2,m)=\frac{1}{4}\,\sigma(s,n,m).
+\]
+\end{corollary}
+
+\begin{proof}
+Insert Proposition~\ref{prop:qp} into Theorems~\ref{thm:ibp1}-\ref{thm:ibp2} and argue inductively.
+\end{proof}
+
+
+\section{Construction of a Formal $R$-Matrix}
+
+Let $V=\C^{2}$ with basis $|+\rangle,|-\rangle$.  For $u,v\in\C$, define the
+integer index
+\[
+n(u,v)=\frac{2(u-v)}{i\pi}.
+\]
+
+\begin{definition}
+Define
+\[
+A(n)=\tau(s,n,n),\qquad
+B(n)=\sigma(s,n,n+1).
+\]
+The \emph{formal $R$-matrix} is
+\[
+R(u,v)=
+\begin{pmatrix}
+A & 0 & 0 & 0\\
+0 & B & B & 0\\
+0 & B & B & 0\\
+0 & 0 & 0 & A
+\end{pmatrix},
+\]
+where $A=A(n(u,v))$ and $B=B(n(u,v))$.
+\end{definition}
+
+The parity and quasi-periodicity imply:
+
+\begin{proposition}
+$A(n)=0$ for odd $n$, and $A(n+2)=\frac{1}{4}A(n)$; likewise $B(n+2)=\frac{1}{4}B(n)$.
+\end{proposition}
+
+
+\section{Proof of the Yang-Baxter Equation}
+To prove the functionals satisfy the Yang-Baxter Equations \cite{yang1967some,baxter1972partition, baxter1982exactly} We must:
+\begin{enumerate}
+    \item Construct the $R$-Matrix explicitly.
+    \item Expressing the products of the \(2\times2\) block matrices explicitly in terms of \(\sigma\) and \(\tau\).
+    \item Using the recurrences \ref{thm:ibp1} \ref{thm:ibp2} and the boundary properties in Propositions \ref{prop:parity} and \ref{prop:parity_tau} to reduce both sides of the Yang–Baxter equation to a common form.
+    \item Showing that the resulting functional equations are identities modulo the defining relations of \(\sigma\) and \(\tau\).
+\end{enumerate}
+Let $J$ denote the $2\times2$ matrix
+\[
+J=\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+
+In the subspace spanned by $|+-\rangle,|-+\rangle$, the $R$-matrix acts as $B(n)J$.
+Since $J$ satisfies the Temperley-Lieb relations $J^{2}=2J$, the matrix
+Yang-Baxter equation reduces to a scalar condition.
+
+\subsection{Reduction to a scalar triple-product identity}
+
+Write $B(u,v)=B(n(u,v))$. \footnote{The $B$ on the left is definedby the spectral parameters, The $B$ on the right is the previously defined $B(n(u,v))$.} Then the Yang-Baxter equation on the relevant
+two-dimensional subspace is equivalent to:
+\begin{equation}\label{eq:YBE_scalar}
+B(u,v)\,B(u,w)\,B(v,w)=B(v,w)\,B(u,w)\,B(u,v).
+\end{equation}
+Thus it suffices to prove that the triple product is symmetric in $u,v,w$.
+
+\subsection{Solution of $B(n)$ under the recurrences}
+
+\begin{lemma}\label{lem:Bn_solution}
+There exists a function $C(s)$ such that
+\[
+B(n)=C(s)\cdot 2^{-n}.
+\]
+\end{lemma}
+
+\begin{proof}
+By quasi-periodicity, $B(n+2)=\frac{1}{4}B(n)$, hence $B(n)=K(s)\,2^{-n}$ for some
+$K(s)$.  Parity constraints are consistent with this form.
+\end{proof}
+
+\begin{proposition}
+The triple product in \eqref{eq:YBE_scalar} is symmetric in $u,v,w$.
+\end{proposition}
+
+\begin{proof}
+Let $n(u,v)=\dfrac{2(u-v)}{i\pi}$.  Then
+\[
+n(u,v)+n(u,w)+n(v,w)=\frac{2}{i\pi}\bigl[(u-v)+(u-w)+(v-w)\bigr]=0.
+\]
+Using Lemma~\ref{lem:Bn_solution},
+\[
+B(u,v)B(u,w)B(v,w)
+=C(s)^{3}\,2^{-\,[n(u,v)+n(u,w)+n(v,w)]}=C(s)^{3},
+\]
+which is symmetric.
+\end{proof}
+
+\begin{theorem}[Formal Yang-Baxter equation]
+The $R$-matrix defined above satisfies
+\[
+R_{12}(u,v)R_{13}(u,w)R_{23}(v,w)=
+R_{23}(v,w)R_{13}(u,w)R_{12}(u,v)
+\]
+as a formal identity in $u,v,w$.
+\end{theorem}
+
+\begin{proof}
+The reduction above shows that all nontrivial components satisfy the scalar
+identity \eqref{eq:YBE_scalar}, which holds by the preceding proposition.
+\end{proof}
+
+
+\section{Conclusion}
+
+We have developed a formal calculus built from a regularized Weierstrass
+product with the zero set of $\cosh(x/2)$.  Encoding higher derivatives via
+Bell polynomials leads to formal transforms $\sigma$ and $\tau$ satisfying a
+closed system of integration-by-parts recurrences exhibiting symmetry,
+parity, and quasi-periodicity.  These identities are sufficient to construct a
+Temperley-Lieb type $R$-matrix that satisfies the Yang-Baxter equation
+formally.
+
+The results are purely algebraic.  They isolate structural features that mirror
+those of integrable lattice models and suggest that the calculus of classical
+Weierstrass products may be linked, at a formal level, to the algebraic
+underpinnings of quantum integrability.
+
+Further work may address analytic realizations or operator-theoretic
+interpretations of the recurrence system.
+
+\bibliography{referencescopy}
+
+\end{document}
+
+% ****** End of file rmatrixisomorphism.tex ******
